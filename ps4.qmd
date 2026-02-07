@@ -152,8 +152,8 @@ BASE_URL = "https://oig.hhs.gov/fraud/enforcement/"
 
 def scrape_enforcement_actions_since(year: int, month: int, run_scraper: bool = False) -> pd.DataFrame:
     
-    if not run_scraper:
-        return pd.DataFrame()
+    # if not run_scraper:
+    #     return pd.DataFrame()
 
     if year < 2013:
         return pd.DataFrame()
@@ -230,7 +230,9 @@ def scrape_enforcement_actions_since(year: int, month: int, run_scraper: bool = 
 ```
 ```{python}
 RUN_SCRAPER = False
-df_2024 = scrape_enforcement_actions_since(2024, 1, run_scraper=RUN_SCRAPER)
+# df_2024 = scrape_enforcement_actions_since(2024, 1, run_scraper=RUN_SCRAPER)
+
+df_2024 = pd.read_csv("enforcement_actions_2024_01.csv")
 
 df_2024.head()
 
@@ -243,18 +245,18 @@ n_actions_2024
 df_2024.columns
 ```
 ```{python}
-# df_2024["date_dt"] = pd.to_datetime(df_2024["date"], errors="coerce")
-# df_2024 = df_2024.dropna(subset=["date_dt"])
+df_2024["date_dt"] = pd.to_datetime(df_2024["date"], errors="coerce")
+df_2024 = df_2024.dropna(subset=["date_dt"])
 
-# earliest_2024 = df_2024.sort_values("date_dt", ascending=True).iloc[0]
-# earliest_2024
+earliest_2024 = df_2024.sort_values("date_dt", ascending=True).iloc[0]
+earliest_2024
 ```
 
 * c. Test Your Code
 ```{python}
 RUN_SCRAPER = False
-df_2022 = scrape_enforcement_actions_since(2022, 1, run_scraper=RUN_SCRAPER)
-
+# df_2022 = scrape_enforcement_actions_since(2022, 1, run_scraper=RUN_SCRAPER)
+df_2022 = pd.read_csv("enforcement_actions_2022_01.csv")
 df_2022.head()
 
 ```
@@ -269,12 +271,24 @@ n_actions_2022
 
 
 ```{python}
+df_2022 = pd.read_csv("enforcement_actions_2022_01.csv")
 
-# earliest_2022 = df_2022.sort_values("date_dt", ascending=True).iloc[0]
-# earliest_2022[["date", "title", "category", "link"]]
+df_2022["date_dt"] = pd.to_datetime(df_2022["date"], errors="coerce")
+
+df_2022 = df_2022.dropna(subset=["date_dt"])
+
+earliest_2022 = df_2022.sort_values("date_dt", ascending=True).iloc[0]
+earliest_2022[["date", "title", "category", "link"]]
 
 ```
 
+
+```{python}
+
+
+len(df_2022)
+
+```
 ```
 ## Step 3: Plot data based on scraped data
 
